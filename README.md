@@ -85,7 +85,7 @@
 
 
 ## 발표자료 PDF
-팀 프로젝트의 발표자료는 여기에서 확인할 수 있습니다: [서울 부동산 시장 인사이트 대시보드.pdf](https://github.com/suhyeon0325/SeoulREDash/blob/main/%EC%84%9C%EC%9A%B8%20%EB%B6%80%EB%8F%99%EC%82%B0%20%EC%8B%9C%EC%9E%A5%20%EC%9D%B8%EC%82%AC%EC%9D%B4%ED%8A%B8%20%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C_2%EC%A1%B0.pdf)
+팀 프로젝트의 발표자료는 여기에서 확인할 수 있습니다: [서울 부동산 시장 인사이트 대시보드.pdf](https://github.com/suhyeon0325/SeoulREDash/blob/main/%EC%84%9C%EC%9A%B8%20%EB%B6%80%EB%8F%99%EC%82%B0%20%EC%8B%9C%EC%9E%A5%20%EC%9D%B8%EC%82%AC%EC%9D%B4%ED%8A%B8%20%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C_%EB%B0%9C%ED%91%9CPPT.pdf)
 
 ---
 
