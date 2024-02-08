@@ -15,8 +15,8 @@
 
 ## 개발 환경
 본 프로젝트는 다음 환경에서 구현되었습니다:
-- **프로그래밍 언어**: Python (버전 3.12.1)
-- **웹 프레임워크**: Streamlit (버전 1.31.0)
+- **Programming Languages**: Python (ver. 3.12.1)
+- **Web Framework**: Streamlit (ver. 1.31.0)
 
 프로젝트는 Python이나 Streamlit의 다른 버전을 사용하여도 작동할 수 있습니다. 그러나 최적 호환성을 위해 제공된 `requirements.txt`에 명시된 버전 사용을 권장합니다.
 
