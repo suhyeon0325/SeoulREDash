@@ -33,7 +33,7 @@
 
 
 ## 데모 페이지
-대시보드 데모: [서울 부동산 인사이트 대시보드](https://miniproject-6qhdygprketeard33iurkp.streamlit.app/)
+대시보드 데모: [서울 부동산 인사이트 대시보드](https://mulcamp-miniproject-tsxpry9q44xmqu4hrbtrtj.streamlit.app/)
 
 
 ---
