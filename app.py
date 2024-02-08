@@ -76,12 +76,12 @@ def select_area(data, area_name, prev_selection=None):
     사용자로부터 구와 동을 선택받는 함수.
 
     Parameters:
-    - data: 판다스 데이터프레임, 사용자로부터 선택을 받기 위한 데이터.
-    - area_name: str, 사용자에게 표시할 선택 영역의 이름 ("첫 번째 지역" 또는 "두 번째 지역").
-    - prev_selection: tuple, 이전에 선택된 구와 동 (default: None).
+    - data: 판다스 데이터프레임, 사용자로부터 선택을 받기 위한 데이터
+    - area_name: str, 사용자에게 표시할 선택 영역의 이름 ("첫 번째 지역" 또는 "두 번째 지역")
+    - prev_selection: tuple, 이전에 선택된 구와 동 (default: None)
 
     Returns:
-    - tuple: 선택된 구와 동의 이름.
+    - tuple: 선택된 구와 동의 이름
     """
     if prev_selection is None:
         district_list = data['자치구명'].unique()
@@ -96,8 +96,6 @@ def select_area(data, area_name, prev_selection=None):
     
     return selected_district, selected_dong
 
-
-
 def main():
     # 대시보드 제목
     st.title("서울특별시 아파트 매매 거래 지역별 정보")
@@ -107,22 +105,14 @@ def main():
     geo_data = load_geo_data("data/seoul_jan.geojson")
     data = load_data("data/data.csv")   
 
-
     col1, col2 = st.columns([7,3])
     
     with col1: 
         with st.container(border=True, height=600):
             st.subheader("1월 서울특별시 시군구별 아파트 매매 지도", divider='blue', help='건물 면적이 커질수록 원의 크기도 상대적으로 커집니다.')
             
-            # 함수 호출 부분
-            def main():
-                # 함수 호출 예시
-                plot_mapbox(geo_data, MAP_TOKEN)  # geo_data와 MAP_TOKEN은 해당 데이터를 담고 있는 변수입니다.
-                
-            if __name__ == "__main__":
-                main()
-
-            
+            plot_mapbox(geo_data, MAP_TOKEN)  # geo_data와 MAP_TOKEN은 해당 데이터를 담고 있는 변수입니다.
+   
     with col2:
         with st.container(border=False, height=600):
             with st.container(border=True, height=138):
@@ -138,9 +128,6 @@ def main():
                 st.metric(label="1월 건물면적(㎡) 넓은 지역", value='성동구', delta='평균 대비 24.57㎡',
                         delta_color="normal", help="성동구의 1월 평균 건물면적은 84.75㎡입니다.")
                     
-  
-        
-    
     with st.container(border=True):
         st.subheader('아파트 매매 데이터 지역별 비교')
         col3, col4, col5 = st.columns([3,3,4])
@@ -195,8 +182,7 @@ def main():
                     (data['건축년도'] <= selected_year_built[1])
                 ]
 
-
-    # 데이터 시각화
+    # 비교 데이터 시각화
     with st.container(border=True, height=800):
         # 계약일에 따른 전체 데이터 필터링
         filtered_data = data[
@@ -243,7 +229,6 @@ def main():
                 width=1200,  
                 height=600  
             )
-
         
             st.plotly_chart(fig)
 
@@ -296,13 +281,11 @@ def main():
                 height=600  
             )
 
-            # 그래프 표시
             st.plotly_chart(fig)
 
         # 거래금액 비교 탭
         with tab3:
             
-            # 박스 플롯을 생성
             fig = go.Figure()
 
             # 첫 번째 필터링된 데이터에 대한 박스 플롯 추가
@@ -332,9 +315,7 @@ def main():
                 height=700   
             )
 
-            # 그래프 표시
             st.plotly_chart(fig)
-
 
         # 상관관계 분석 탭
         with tab4:
