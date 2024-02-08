@@ -36,6 +36,66 @@ def load_data(csv_file):
     data = pd.read_csv(csv_file)
     return data
 
+# 지도 시각화 함수
+def plot_mapbox(geo_data, MAP_TOKEN):
+    """
+    서울특별시 시군구별 아파트 매매 지도를 시각화하는 함수.
+    """
+    geo_data = geo_data.set_crs(epsg=4326, allow_override=True)
+    geo_data["lon"] = geo_data.geometry.centroid.x
+    geo_data["lat"] = geo_data.geometry.centroid.y
+    geo_data['평균_물건금액'] = geo_data['평균_물건금액'].round(2)
+    geo_data['평균_건물면적'] = geo_data['평균_건물면적'].round(2)
+    geo_data['평균_건축년도'] = geo_data['평균_건축년도'].round(2)
+    geo_data['hover_text'] = geo_data['자치구명'] + '<br>' + \
+                             '평균 물건 금액: ' + geo_data['평균_물건금액'].astype(str) + '<br>' + \
+                             '평균 건물 면적: ' + geo_data['평균_건물면적'].astype(str) + '<br>' + \
+                             '평균 건축년도: ' + geo_data['평균_건축년도'].astype(str)
+    fig = px.scatter_mapbox(
+        geo_data,
+        lat="lat",
+        lon="lon",
+        color="평균_물건금액",
+        size="평균_건물면적",
+        hover_name="자치구명",
+        hover_data={"hover_text": True, "lat": False, "lon": False, "자치구명": False,
+                    "평균_물건금액": False, "평균_건물면적": False, "평균_건축년도": False},
+        color_continuous_scale="Portland",
+        size_max=30,
+        zoom=10,
+        mapbox_style="light"
+    )
+    fig.update_layout(margin={"r":0, "t":0, "l":0, "b":0},
+                      mapbox=dict(accesstoken=MAP_TOKEN, bearing=0,
+                                  center=dict(lat=geo_data["lat"].mean(), lon=geo_data["lon"].mean()),
+                                  pitch=0, zoom=10))
+    st.plotly_chart(fig)
+
+def select_area(data, area_name, prev_selection=None):
+    """
+    사용자로부터 구와 동을 선택받는 함수.
+
+    Parameters:
+    - data: 판다스 데이터프레임, 사용자로부터 선택을 받기 위한 데이터.
+    - area_name: str, 사용자에게 표시할 선택 영역의 이름 ("첫 번째 지역" 또는 "두 번째 지역").
+    - prev_selection: tuple, 이전에 선택된 구와 동 (default: None).
+
+    Returns:
+    - tuple: 선택된 구와 동의 이름.
+    """
+    if prev_selection is None:
+        district_list = data['자치구명'].unique()
+    else:
+        district_list = [d for d in data['자치구명'].unique() if d != prev_selection[0]]
+    
+    selected_district = st.selectbox(f'{area_name}의 구를 선택하세요:', district_list)
+    dong_list = data[data['자치구명'] == selected_district]['법정동명'].unique()
+    if prev_selection is not None:
+        dong_list = [d for d in dong_list if d != prev_selection[1]]  # 이전 선택 제외
+    selected_dong = st.selectbox(f'{selected_district}의 동을 선택하세요:', dong_list)
+    
+    return selected_district, selected_dong
+
 
 
 def main():
@@ -54,64 +114,14 @@ def main():
         with st.container(border=True, height=600):
             st.subheader("1월 서울특별시 시군구별 아파트 매매 지도", divider='blue', help='건물 면적이 커질수록 원의 크기도 상대적으로 커집니다.')
             
-            # 자치구별로 그룹화
-            geo_data = geo_data.set_crs(epsg=4326, allow_override=True)
+            # 함수 호출 부분
+            def main():
+                # 함수 호출 예시
+                plot_mapbox(geo_data, MAP_TOKEN)  # geo_data와 MAP_TOKEN은 해당 데이터를 담고 있는 변수입니다.
+                
+            if __name__ == "__main__":
+                main()
 
-            # 경도 위도 추가
-            geo_data["lon"] = geo_data.geometry.centroid.x
-            geo_data["lat"] = geo_data.geometry.centroid.y
-
-            # 소수점 둘째자리까지
-            geo_data['평균_물건금액'] = geo_data['평균_물건금액'].round(2)
-            geo_data['평균_건물면적'] = geo_data['평균_건물면적'].round(2)
-            geo_data['평균_건축년도'] = geo_data['평균_건축년도'].round(2)
-
-            # hover 생성
-            geo_data['hover_text'] = geo_data['자치구명'] + '<br>' + \
-                                    '평균 물건 금액: ' + geo_data['평균_물건금액'].astype(str) + '<br>' + \
-                                    '평균 건물 면적: ' + geo_data['평균_건물면적'].astype(str) + '<br>' + \
-                                    '평균 건축년도: ' + geo_data['평균_건축년도'].astype(str)                                     
-
-            # 플롯 생성하기
-            fig = px.scatter_mapbox(
-                geo_data,
-                lat="lat",
-                lon="lon",
-                color="평균_물건금액",
-                size="평균_건물면적",
-                hover_name="자치구명",
-                hover_data={
-                    "hover_text": True,
-                    "lat": False,
-                    "lon": False,
-                    "자치구명": False,
-                    "평균_물건금액": False, 
-                    "평균_건물면적": False,
-                    "평균_건축년도": False,
-                    },
-                color_continuous_scale="Portland",
-                size_max=30,
-                zoom=10,
-                mapbox_style="light"
-            )
-
-            # 레이아웃 설정하기
-            fig.update_layout(
-                margin={"r":0, "t":0, "l":0, "b":0},
-                mapbox=dict(
-                    accesstoken=MAP_TOKEN,  
-                    bearing=0,
-                    center=dict(
-                        lat=geo_data["lat"].mean(),
-                        lon=geo_data["lon"].mean()
-                    ),
-                    pitch=0,
-                    zoom=10
-                )
-            )
-
-            # Display the figure in the Streamlit app
-            st.plotly_chart(fig)
             
     with col2:
         with st.container(border=False, height=600):
@@ -127,6 +137,8 @@ def main():
             with st.container(border=True, height=138):
                 st.metric(label="1월 건물면적(㎡) 넓은 지역", value='성동구', delta='평균 대비 24.57㎡',
                         delta_color="normal", help="성동구의 1월 평균 건물면적은 84.75㎡입니다.")
+                    
+  
         
     
     with st.container(border=True):
@@ -135,22 +147,11 @@ def main():
         
         with col3: 
             with st.container(border=True, height=215):
-                # 첫 번째 구 선택
-                district_list = data['자치구명'].unique()
-                selected_district1 = st.selectbox('첫 번째 지역의 구를 선택하세요:', district_list)
-                # 선택된 구 내의 동 선택
-                dong_list1 = data[data['자치구명'] == selected_district1]['법정동명'].unique()
-                selected_dong1 = st.selectbox(f'{selected_district1}의 동을 선택하세요:', dong_list1)
-
+                selected_district1, selected_dong1 = select_area(data, "첫 번째 지역")
+                
         with col4: 
             with st.container(border=True, height=215):
-                # 두 번째 구 선택
-                selected_district2 = st.selectbox('두 번째 지역의 구를 선택하세요:', district_list, index=(0 if selected_district1 not in district_list else district_list.tolist().index(selected_district1)))
-                # 선택된 구 내의 동 선택
-                dong_list2 = data[data['자치구명'] == selected_district2]['법정동명'].unique()
-                if selected_district1 == selected_district2:
-                    dong_list2 = [dong for dong in dong_list2 if dong != selected_dong1]  # 첫 번째 선택된 '동' 제외
-                selected_dong2 = st.selectbox(f'{selected_district2}의 동을 선택하세요:', dong_list2)
+                selected_district2, selected_dong2 = select_area(data, "두 번째 지역", prev_selection=(selected_district1, selected_dong1))
 
         with col5: 
             with st.container(border=True, height=215):
