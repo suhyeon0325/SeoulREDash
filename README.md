@@ -7,33 +7,18 @@
 
 ## 팀원 소개
 - **김수현**: [GitHub](https://github.com/suhyeon0325)
-
     - Page 3: 지역별 분석 및 비교 (Comparison by region)
-
     - 지리 데이터 수집 및 전처리
-
     - 발표 PPT 기획 및 제작
-
 - **송 민**: [GitHub](https://github.com/ms2063)
-
     - Page 2: 가격 분석 담당 (Price analysis)
-
 - **송준호**: [GitHub](https://github.com/Kongalmengi)
-
     - Page 4: 재건축 예측 담당(Rebuilding predict)
-
-    - 조장
-
-    - 발표
-
+    - 조장 및 발표
 - **임예원**: [GitHub](https://github.com/dsmondo)
-
     - Page 1: 시장 개요 담당 (Market overview)
-
     - 전체 페이지 취합 및 배포
-
 - **한대희**:  [GitHub](https://github.com/roklp)
-
     - Page 5: 층수 분석 담당 (Floor analysis)
 
 ---
