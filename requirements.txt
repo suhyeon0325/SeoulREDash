@@ -4,8 +4,8 @@ plotly
 streamlit
 geopandas
 numpy
-jupyterlab
 folium
 streamlit-folium
 streamlit_option_menu
 statsmodels
+python-dotenv

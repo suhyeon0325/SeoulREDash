@@ -15,8 +15,7 @@ from plotly.subplots import make_subplots
 
 load_dotenv()
 MAP_TOKEN = os.getenv('MAP_TOKEN')
-import streamlit as st
-import os
+
 
 st.set_page_config(
     page_title="메인",
